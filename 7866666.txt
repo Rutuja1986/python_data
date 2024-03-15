@@ -1,0 +1,1260 @@
+program
+1-anagram                                                         {django,orm, flask, rest}{python-coding-sql}{docker--git}{cicd--aws}
+
+2-maximun of an array (sum)[1,-3,-5,4]
+3-import re--gmail
+4-fact, recur, fibo, recur
+5 linear search, binary search--complexity
+6 maxim  substring without repaeating character
+7 flat list. target, sort, secound largest
+8 stack, queue, ###
+9 oops, file handling, pandas file csv, insert new column, 
+10--python path, global, nonlocal, sort, sorted, reverse, key=true, sort dict,
+11-enumerate, zip, defaultdict, string, 
+--classes in pythonmusing list--create no classes using list
+==================================================================
+##django
+#django
+#middleware, signal inheritence, caching, session, migration, 
+# exception, authentcation, model relationship
+# authorization.,forms ,model form, asgi, wsgi, mixin,nodel manager
+
+
+=====================================================
+##Rest api, 
+difference  between--http and https-
+-how to improve api performance
+-session in api
+-how to handle authentication in api, autherization, serializer, types, status code, session in rest api
+-how to handle thousend of request in api
+===================================================
+
+pandas
+--merging, concatng, append 
+--
+
+Numpy
+--
+
+
+
+
+sql and mysql: (w3school sql, imp query, joins,imp videos, 
+prticed create table,limit offset, clause, order by, groupby, keys---general interview question dbms)
+create database, table, primery key, add primery key--alter, windows function in sql, clause, join,
+query, duplicate, remove duplicate, employee belong to same departmnt, limit. top, 
+views, proceduer, keys, basic, rank and dencerank in sql--window function, index
+
+ trigger, constraints, sql database connections
+
+(self join where to use)
+(inner join where to use)
+
+
+clause: where, having 
+
+
+
+31. Write an SQL query to fetch all the Employees who are also managers from the EmployeeDetails table.
+Here, we have to use Self-Join as the requirement wants us to analyze the EmployeeDetails table as two tables. We will use different aliases ‘E’ and ‘M’ for the same EmployeeDetails table.
+
+SELECT DISTINCT E.FullName
+FROM EmployeeDetails E
+INNER JOIN EmployeeDetails M
+ON E.EmpID = M.ManagerID;
+
+32. Write an SQL query to fetch duplicate records from EmployeeDetails (without considering the primary key – EmpId).
+In order to find duplicate records from the table, we can use GROUP BY on all the fields and then use the HAVING clause to return only those fields whose count is greater than 1 i.e. the rows having duplicate records.
+
+SELECT FullName, ManagerId, DateOfJoining, City, COUNT(*)
+FROM EmployeeDetails
+GROUP BY FullName, ManagerId, DateOfJoining, City
+HAVING COUNT(*) > 1;
+
+
+33. Write an SQL query to remove duplicates from a table without using a temporary table.
+Here, we can use delete with alias and inner join. We will check for the equality of all the matching records and then remove the row with a higher EmpId.
+
+DELETE E1 FROM EmployeeDetails E1
+INNER JOIN EmployeeDetails E2 
+WHERE E1.EmpId > E2.EmpId 
+AND E1.FullName = E2.FullName 
+AND E1.ManagerId = E2.ManagerId
+AND E1.DateOfJoining = E2.DateOfJoining
+AND E1.City = E2.City;
+
+
+##employee working in the same department
+select distinct E.empid, E.empname, E.deparment
+from Employeeinfo E, Employeinfo E1
+where E.department=E1.department
+and E.empid != E1.empid
+
+##employee belong to same departmernt
+
+
+##git
+config,,revert, delete branch, merge, clone, fetch, pull, 
+
+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
+
+a,b,c =(1,2,3,(3,4),12,13,15,(21,23,24))[::3]
+
+print(a,b,c)
+==============================================
+# l1=['abc','cb','ancd', 'nhbcd']
+
+# res = sorted(l1, key=len, reverse=True)
+# print(res)
+==============================================
+#anagram
+s1='ranjit'
+s2='ranrjt'
+res1 = s1.lower()
+res2 = s2.lower()
+
+if len(res1)==len(res2):
+    if sorted(res1)==sorted(res2):
+        print("angram")
+    else:
+        print("sorry")
+
+
+else:
+    print("sorry")
+------------------------------------------------
+def find_anagram(strs):
+    d1={}
+    for s in strs:
+        sorted_string = "".join(sorted(s))
+        if sorted_string in d1:
+            d1[sorted_string].append(s)
+        else:
+            d1[sorted_string]=[s]
+    return list(d1.values())
+    
+strs = ['abc','bac','lmn','nml','xyz'] 
+print(find_anagram(strs))
+--------------------------------------------------
+#binary search
+
+
+
+def bsearch(l1, low, high, x):
+    if high>=low:
+        mid = (high+low)//2
+        
+        if l1[mid]==x:
+            return mid
+        elif l1[mid]>x:
+            return bsearch(l1, low, mid-1,x)
+        else:
+            return bsearch(l1, mid+1, high,x)
+            
+
+l1=[3,5,1,8,9,10]
+x=8
+print(bsearch(l1, 0, len(l1)-1, x))
+-------------------------------------
+#linear search
+
+l1=[1,4,5,7,8,11]
+
+def get_data(l1,x):
+
+
+    for i in range(len(l1)):
+        if l1[i]==x:
+            return i
+        
+print(get_data(l1,8))
+-------------------------------------
+#target
+l1=[1,2,3,5,4]
+
+def get_data(l1,target):
+    
+    l2=[]
+    for i in range(len(l1)):
+        for j in range(i+1, len(l1)):
+            if l1[i]+l1[j]==target:
+                l2.append([l1[i],l1[j]])
+    return l2
+
+
+
+
+
+print(get_data(l1,5))
+-------------------------------------------------------------------------------------
+#substring without repeating character
+def better1(string : str):
+
+    size = len(string)
+    # Intializing the two pointers and the Set
+    head = 0
+    tail = 0
+    # Substrings are not explicitly stored but is kept by this head and tail pointer
+    chars = set()
+
+    max_len = 1
+    s = 0       # Starting index of the resultant substring
+    e = 0       # Ending Index of the resultant substring
+    # Both inclusive
+
+    for tail in range(size):
+        while string[tail] in chars:
+            chars.remove(string[head])
+            head += 1
+
+        chars.add(string[tail])
+
+        if max_len < (tail - head + 1):
+            s = head
+            e = tail
+            max_len = e - s + 1
+
+    result_string = string[s : e+1]
+    print(len(result_string))
+    return result_string
+
+s1='abcabdecfg'
+print(better1(s1))
+
+        
+
+-------------------------------------------------------------------------------
+#stack
+
+
+#queue
+
+
+#sum of maximum subarray in list
+
+# Python program to find maximum contiguous subarray
+
+def maxSubArraySum(a,size):
+	
+	max_so_far =a[0]
+	curr_max = a[0]
+	
+	for i in range(1,size):
+		curr_max = max(a[i], curr_max + a[i])
+		max_so_far = max(max_so_far,curr_max)
+		
+	return max_so_far
+
+# Driver function to check the above function 
+a = [-2, -3, 4, -1, -2, 1, 5, -3]
+print("Maximum contiguous sum is" , maxSubArraySum(a,len(a)))
+
+#This code is contributed by _Devesh Agrawal_
+--------------------------------------------------------------------
+#no palindrome
+def findPalindrome(s1):
+    result=0
+    temp=s1
+    while(temp>0):
+        digit = temp%10
+        result=result*10+digit
+        temp=temp//10
+    return result
+
+
+s1=12345
+print(findPalindrome(s1))
+------------------------------------------------
+
+
+
+def find_string(s1):
+    new_s=''
+    c=1
+    n=len(s1)
+    for i in range(n-1):
+        if s1[i]==s1[i+1]:
+            c+=1
+        else:
+            new_s=new_s+s1[i]+str(c)
+            c=1
+            
+    new_s=new_s+s1[n-1]+str(c)
+    return new_s
+    
+s1='aabbc'
+print(find_string(s1))
+-----------------------------------------
+s='a2b3'
+
+
+def get(s):
+    s1=''
+    for i in s:
+        if i.isalpha():
+            x=i
+        else:
+            s1=s1+x*int(i)
+    print(s1)
+
+
+
+
+
+
+
+==============================================
+#reverse list using recurrsion
+def rlist(l1):
+    if not l1:
+        return []
+    return [l1[-1]]+rlist(l1[:-1])
+    return l1
+l1=[1,2,3,4,5]
+print(rlist(l1))
+==============================================
+#flat list
+def flatList(l1):
+    if len(l1)==0:
+        return l1
+    elif isinstance(l1[0],list):
+        return flatList(l1[0])+flatList(l1[1:])
+    return l1[:1]+flatList(l1[1:])
+
+
+
+l1=[[1,2,3],[4,5,6]]
+
+print(flatList(l1))
+call and msg to
+=========================================
+# Python program to shuffle a deck of card
+
+# importing modules
+import itertools, random
+
+# make a deck of cards
+deck = list(itertools.product(range(1,14),['Spade','Heart','Diamond','Club']))
+
+# shuffle the cards
+random.shuffle(deck)
+
+# draw five cards
+print("You got:")
+for i in range(13):
+   print(deck[i][0], "of", deck[i][1])
+=================================================
+#program for file handling
+
+def analyze_text_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            char_count = 0
+            word_count = 0
+            space_count = 0
+            line_count = 0
+
+            for line in file:
+                line_count += 1
+                char_count += len(line)
+                words = line.split()
+                word_count += len(words)
+                space_count += len(words) - 1
+
+            print("File analysis summary:")
+            print("Character count:", char_count)
+            print("Word count:", word_count)
+            print("Space count:", space_count)
+            print("Line count:", line_count)
+
+    except FileNotFoundError:
+        print("File not found!")
+
+# Usage
+file_path = "sample.txt"  # Replace with your file path
+analyze_text_file(file_path)
+=====================================================
+# l1 = [1,5,6]
+
+# l1.append(12)
+# l1.append(23)
+
+# print(l1)
+# #stack--lifo
+# #fifo
+# l1.pop(0)
+# print(l1)
+# l1.pop(0)
+# print(l1)
+
+#link list
+
+# class Node:
+#     def __init__(self, dataval=None):
+#         self.dataval = dataval
+#         self.nextval = None
+        
+# class SSlinkList:
+    
+#     def __init__(self):
+#         self.headval=None
+        
+        
+#     def listprint(self):
+#         printval = self.dataval
+        
+#         while printval is not None:
+#             print(printval.dataval)
+#             printval = printval.nextval
+    
+    
+# list1 = SSlinkList():
+# list1.headval=Node('a')
+# e2=Node('b')
+# e3=Node('c')
+
+# list1.headval.nextval = e2
+# e2.nextval = e3
+
+
+# Python program to shuffle a deck of card
+
+# importing modules
+# 
+
+# res=a3b3a2
+
+# def get(s1):
+#     n=len(s1)
+#     c=1
+#     s=''
+#     for i in range(n-1):
+#         if s1[i]==s1[i+1]:
+#             c+=1
+#         else:
+#             s=s+s1[i]+str(c)
+#             c=1
+#     s=s+s1[n-1]+str(c)
+#     return s
+# s2='aaabbbaad'
+# print(get(s2))
+# d1={'a':3,'b':2}
+# s1=''
+# for k, v in d1.items():
+#     s1=s1+k+str(v)
+
+# import random
+# from itertools import product
+
+# deck = list(product(range(1,14),['spade', 'heart','dimand', 'club']))
+# # print(res)
+# random.shuffle(deck)
+# for i in range(5):
+#     print(deck[i][0],"of", deck[i][1])
+# # import random
+
+# # mylist = ["apple", "banana", "cherry"]
+# # res = random.randint(mylist)
+
+# # print(mylist)
+
+
+# import random
+# from itertools import product
+
+# deck = list(product(range(1,14),['heart', 'spade', 'diamond', 'club']))
+# random.shuffle(deck)
+# for i in range(5):
+#     print(deck[i][0], "of", deck[i][1])
+    
+
+# l1=[1,4,5,7,8]
+# res = reversed(l1)
+# print(list(res))
+
+#stack
+#lifo
+# l1=[]
+# l1.append(12)
+# l1.append(12)
+# l1.append(13)
+# l1.append(14)
+# print(l1)
+# l1.insert(0, 13)
+# print(l1)
+# l1.pop(0)
+# print(l1)
+
+# import random
+# from itertools import product
+
+# deck = list(product(range(1,14),['club', 'spade', 'heart','diamond']))
+# random.shuffle(deck)
+# for i in range(5):
+#     print(deck[i][0],"of", deck[i][1])
+
+
+
+
+
+
+
+
+
+
+
+
+======================================
+sql rough
+order of sql: from where group by having select order by limit
+
+
+
+
+
+===========
+sorting algorith--selecion sort, insertion, quick, bubble, merger sort, heap sort
+searching algorithm--linear search, Binary search, Binary search tree
+Link list, stack, queue, deque
+----------------------------------------------------------------------------
+
+
+Linkdein profile headline
+-------------------------
+Python Django Developer| Software Engineer at ITE Software Solutions Pvt Ltd.| Immediate Joiner| Actively Applying
+
+
+
+
+
+
+111
+=============================================================
+# # Python program to shuffle a deck of card
+
+# # importing modules
+# import itertools, random
+
+# # make a deck of cards
+# deck = list(itertools.product(range(1,14),['Spade','Heart','Diamond','Club']))
+
+# # shuffle the cards
+# random.shuffle(deck)
+
+# # draw five cards
+# print("You got:")
+# for i in range(13):
+#   print(deck[i][0], "of", deck[i][1])
+===========================================================
+
+# from collections import Counter
+# l1=[1,1,2,3,4,4,4]
+# print(Counter(l1))
+# print(dict(Counter(l1)))
+
+# res = max(l1, key=l1.count)
+# print(res)
+
+# def get(l1):
+    
+#     d1={}
+#     for i in l1:
+#         if i in d1:
+#             d1[i] +=1
+#         else:
+#             d1[i] =1
+#     return d1
+
+
+
+
+# print(get(l1))
+
+
+
+# l1.insert(1,12)
+# max1 = l1[0]
+# for i in l1:
+#     if i>max1:
+#         max1 = i
+# print(max1)
+
+# l1.reverse()
+# l1.sort(reverse=True)
+# print(l1)
+# for i in range(len(l1)):
+#     for j in range(i+1, len(l1)):
+#         if l1[i]>l1[j]:
+#             l1[i],l1[j]=l1[j],l1[i]
+# print(l1)
+
+#O(1), O(logn), O(n), O(nlogn)
+# def lSearch(l1,x):
+#     for i in range(len(l1)):
+#         if l1[i]==x:
+#             return i
+      
+    
+    
+# # x=9
+# l1=[1,6,7,9,0,5,2]
+# # print(lSearch(l1,x))
+
+
+
+# def get_data(l1,target):
+#     l2=[]
+#     for i in range(len(l1)):
+#         for j in range(i+1, len(l1)):
+#             if l1[i]+l1[j]==target:
+#                 l2.append([l1[i],l1[j]])
+#     return l2
+
+
+
+
+
+# print(get_data(l1,7))
+
+
+# l1=[1,2,3,4,5]
+
+# def get_data(l1):
+#     if not l1:
+#         return []
+#     else:
+#         return [l1[-1]]+get_data(l1[:-1])
+# print(get_data(l1))        
+
+
+# res1 = [i for j in l1 for i in j]
+# print(res1)
+
+# from functools import reduce
+# res3 = reduce(lambda x,y:x+y,l1)
+# print(res3)
+
+# res4 = sum(l1, [])
+# print(res4)
+# l2=[]
+# l1=[[1,2,3,[11,13]],[5,3,4],8,9]
+# for i in l1:
+#     if type(i)==list:
+#         for j in i:
+#             if type(j)==list:
+#                 for k in j:
+#                     l2.append(k)
+#             else:
+#                 l2.append(j)
+#     else:
+#         l2.append(i)
+# def flat_list(l1):
+#     if len(l1)==0:
+#         return l1
+#     elif isinstance(l1[0],list):
+#         return flat_list(l1[0])+flat_list(l1[1:])
+#     return l1[:1]+flat_list(l1[1:])
+# print(l2)
+
+
+# print(flat_list(l1))
+
+
+
+# l1=[2,1,4,6,10,14,21,23]
+
+# def bSearch(l1, low, high, x):
+#     if high>=low:
+#         mid = (high+low)//2
+#         if l1[mid]==x:
+#             return mid
+#         elif l1[mid]>x:
+#             return bSearch(l1, low, mid-1, x)
+#         else:
+#             return bSearch(l1, mid+1, high,x)
+# print(bSearch(l1, 0, len(l1),21))
+
+# l1=[i for i in range(10)]
+# print(l1)
+# l2=[i for i in range(10) if i%2==0 if i%3==0]
+# print(l2)
+
+# l3=[True if i%2==0 else False for i in [3,12,45,21,14,18,19]]
+# print(l3)
+# l1=[1,2,4,6,7,8]
+# print(l1[:])
+# print(l1[::])
+# print(l1[::-1])
+# print(l1[:-4])
+# print(l1[-3:])
+# l1=[lambda i=i:i*2 for i in range(10)]
+# for i in l1:
+#     print(i())
+# l1=[2,1,4,6,9]
+# res=list(map(lambda i:i*2,l1))
+# print(res)
+# res2 = list(filter(lambda i:i%2==0,l1))
+# print(res2)
+# from functools import reduce
+# res3 = reduce(lambda x,y:x if x>y else y,l1)
+# print(res3)
+
+# s1='ranjit shende'
+# res = s1.split()
+# for i in res:
+#     print(i[::-1])
+# s1='ranji t shende'
+# print(s1.isupper())
+# print(s1.isalpha())
+# print(s1.istitle())
+# print(s1.isdigit())
+# print(s1.islower())
+# print(s1.isalnum())
+# print(s1.capitalize())
+# print(s1.title())
+# print(s1.upper())
+# print(s1.endswith("e"))
+# print(s1.startswith('r'))
+
+# print(s1.isdecimal())
+# print(s1.isnumeric())
+# print(s1.isascii())
+# print(s1.isspace())
+
+# s2= 'ranjit' 
+# print(s2.strip())
+# print(s2.replace('r', 'RR'))
+
+# s1='ran sh ran,kl,sh
+
+
+# print(s1.find('t'))
+# # print(s1.index('tt'))
+# print(s1.count('t'))
+    
+
+# res = "".join(reversed(s1))
+# print(res)
+# print(s1[::-1])
+# for i in s1:
+#     print(i)
+# for i in range(len(s1)):
+#     print(i, s1[i])
+# s2=''
+# for i in s1:
+#     s2=i+s2
+# print(s2)
+# print(bool())
+
+# s1=set()
+# s2={}
+# print(type(s2))
+
+# l1=[1,3,4]
+# l2=[1,3,4]
+# print(id(l1))
+# print(id(l2))
+# print(l1 is l2)
+# print(l1==l2)
+# print(l1 in l2)
+# l2=l1.copy()
+# print(id(l1))
+# print(id(l2))
+# l3=l1
+
+
+
+#anagram
+# s1='ranjit'
+# s2='ranitj'
+
+# res1 = s1.lower()
+# res2 = =s2.lower()
+
+# if len(res1)==len(res2):
+#     if sorted(res1)==sorted(res2):
+#         print("anagram")
+#     else:
+#         print("sorry")
+# else:
+#     print("sorry")
+
+# def find_anagram(strs):
+#     d1={}
+#     for s in strs:
+#         sorted_string = "".join(sorted(s))
+#         if sorted_string in d1:
+#             d1[sorted_string].append(s)
+#         else:
+#             d1[sorted_string]=[s]
+#     return list(d1.values())
+
+# l1=['abc','bac','lmn','mln','nml','yzx']
+
+# print(find_anagram(l1))
+
+
+
+# def outer():
+#     a='hello'
+#     print(a)
+    
+#     def inner():
+#         nonlocal a
+#         a='rajesh'
+#         print(a)
+#     inner()
+#     print(a)
+#     return a
+# print(outer())
+
+
+# from collections import Counter, defaultdict
+
+# def get_value():
+#     return "hello"
+    
+# d=defaultdict(get_value)
+# d['a'] = 12
+# d['b'] = 23
+# print(d['b'])
+
+# import copy
+# l1=[[1,2,3],[6,7,8]]
+# l2=copy.deepcopy(l1)
+# print(l1)
+# print(l2)
+
+# l1[0][1]=23
+# print(l1)
+# print(l2)
+
+# def fstring(string):
+#     size=len(string)
+#     head=0
+    # tail=0
+    # chars=set()
+    # max_len=0
+    
+    # s=0
+    # e=0
+    # for tail in range(size):
+    #     if string[tail] in chars:
+    #         chars.remove(string[head])
+    #         head+=1
+    #     chars.add(string[tail])
+        
+    #     if max_len<(tail-head+1):
+    #         s=head
+    #         e=tail
+    #         max_len(e-1+1)
+    # result_string = string[s:e+1]
+    # print(len(result_string))
+
+
+# string='abbcd'
+# def fstring(string)
+
+# #stack--LIFO
+# #queue-fifo
+# l1=[]
+# l1.append('1')
+# l1.append('a')
+# l1.append('b')
+# l1.append('c')
+# print(l1)
+# l1.pop(0)
+# l1.pop(0)
+# print(l1)
+
+#link list
+
+
+# def Node:
+#     def __init__(self, dataval=0):
+#         self.dataval = dataval
+#         self.nextval = None
+        
+# def SLinkList:
+#     def __init__(self):
+#         self.headval=None
+#     def listprint(self):
+#         printval = self.headval
+#         while printval is not None:
+#             print(printval.dataval)
+#             printval=printval.nextval
+        
+ 
+#  list1 = SLinkList()
+#  list1.headval = Node('a')
+#  e2=Node("b2")
+#  e3=Node('b3')
+ 
+#  list1.headval.nextval=e2
+#  e2.nextval=e3
+
+# class Node:
+#     def __init__(self, dataval=None):
+#         self.dataval = dataval
+#         self.nextval = None
+    
+# class SLinkList:
+#     def __init__(self):
+#         self.headval = None
+        
+#     def listPrint(self):
+#         printval = self.headval
+#         while printval is not None:
+#             print(printval.dataval)
+#             printval = printval.nextval
+            
+    
+    
+# list1 = SLinkList():
+# list1.headval = Node('a')
+# e2 = Node('b')
+# e3 = Node('c')
+
+# list1.headval.nextval = e2
+# e2.nextval = e3
+    
+
+# l1.pop()
+# l1.pop()
+# print(l1)
+
+#clousere,  
+#deco, iter, gen, substring, maximum od subarray
+#file h, csv file, 
+#(oops, property, getter, setter) 
+#pandas, numpy--concat,merge, append, join in pandas, pickle
+#memory managment in python, garbage collector in python
+#pattern programming
+
+
+
+
+
+
+
+
+
+# import numpy as np
+# df = np.zeros((5,5))
+# print(df)
+
+# import pandas as pd
+
+# df= pd.DataFrame([])
+
+
+
+
+
+
+# def maxSubArraySum(a,size):
+	
+# 	max_so_far =a[0]
+# 	curr_max = a[0]
+	
+# 	for i in range(1,size):
+# 		curr_max = max(a[i], curr_max + a[i])
+# 		max_so_far = max(max_so_far,curr_max)
+		
+# 	return max_so_far
+
+# # Driver function to check the above function 
+# a = [-2, -3, 4, -1, -2, 1, 5, -3]
+# print("Maximum contiguous sum is" , maxSubArraySum(a,len(a)))
+====================================================
+#iter
+
+
+# l1=[1,2,3,4,5]
+# for i in l1:
+#     print(i)
+# for i in range(len(l1)):
+#     print(i, l1[i])
+
+# res = iter(l1)
+# print(next(res))
+# print(next(res))
+
+
+# #gen
+# def outer(l1):
+#     for i in l1:
+#         if i%2==0:
+#             yield i
+#             yield i
+
+
+
+# l1=[1,4,2,8,9,10]
+# res =outer(l1)
+# print(next(res))
+# print(next(res))
+# print(next(res))
+
+# def lower_decor(func):
+#     print("lower")
+#     def inner():
+#         fun = func()
+#         data =fun.lower()
+#         return data
+#     return inner
+# def split_decor(func):
+#     print('in split')
+#     def inner():
+#         data = func()
+#         res = data.split()
+#         return res
+#     return inner
+# @split_decor
+# @lower_decor
+# def get_data():
+#     return 'Hello World'
+    
+
+# print(get_data())
+
+
+
+
+
+#decorater
+
+# def outer(func):
+#     print('in decor')
+    
+#     def inner(a,b):
+#         print('in inner')
+#         if b==0:
+#             print("sorry")
+#         else:
+#             res =func(a,b)
+#         return res
+#     return inner
+        
+    
+    
+
+    
+# def get(a,b):
+#     return (a//b)
+    
+# print(get(4,2))
+
+
+
+# def maxSubArraySum(a,size):
+	
+# 	max_so_far =a[0]
+# 	curr_max = a[0]
+	
+# 	for i in range(1,size):
+# 		curr_max = max(a[i], curr_max + a[i])
+# 		max_so_far = max(max_so_far,curr_max)
+		
+# 	return max_so_far
+
+# # Driver function to check the above function 
+# a = [-2, -3, 4, -1, -2, 1, 5, -3]
+# print("Maximum contiguous sum is" , maxSubArraySum(a,len(a)))
+
+
+
+
+
+# def mSubarray(a,size):
+#     max_so_far = a[0]
+#     curr_max = a[0]
+#     for i in range(1, size):
+    
+#         curr_max = max(a[i], curr_max+a[i])
+#         max_so_far = max(max_so_far, curr_max)
+    
+#     return max_so_far
+    
+# a=  [-2, -3, 4, -1, -2, 1, 5, -3]
+# print(mSubarray(a, len(a)))
+
+
+
+
+# def sData(string):
+#     size = len(string)
+#     #initilizing tow pointer for traversing , set and max_len variable
+#     head=0
+#     tail=0
+#     max_len=1
+#     chars = set()
+    
+#     #initilizing two pointer for substring
+    
+#     s=0
+#     e=0
+    
+#     for tail in range(size):
+#         while string[tail] in chars:
+#             chars.remove(string[head])
+#             head+=1
+#         chars.add(string[tail])
+#         if max_len<(tail-head+1):
+#             s=head
+#             e=tail
+#             max_len = (e-s+1)
+#     result_string = string[s:e+1]
+#     print(len(result_string))
+#     return result_string
+
+
+# s = 'abcdds'
+
+# res = sData(s)
+# print(res)
+
+# l1=[1,3,4,6,7]
+
+# print(l1[::-1])
+# res = reversed(l1)
+# print(list(res))
+
+
+# def get_data(l1):
+#     if not l1:
+#         return []
+#     else:
+#         return [l1[-1]]+get_data(l1[:-1])
+
+
+# print(get_data(l1))
+
+# def find_data(a, size):
+    
+#     max_so_far = a[0]
+#     curr_max = a[0]
+    
+#     for i in range(1,size):
+#         curr_max = max(a[i], curr_max+a[i])
+#         max_so_far = max(max_so_far, curr_max)
+#     return max_so_far
+
+
+# a =  [-2, -3, 4, -1, -2, 1, 5, -3]
+# print(find_data(a, len(a)))
+# import logging
+
+# logging.basicConfig(filename = 'data1.log', mode = 'w')
+
+# logger = logging.getLoger()
+
+# logger.setLevel(logging.DEBUG)
+# logger.info("")
+# logger.debug("")
+
+
+# try:
+    
+#     file1 = open("data.txt", 'w'):
+#     file.write("hello")
+#     file1.write("ok")
+# except Exception as e:
+#     print(e)
+# finally:
+#     file1.close()
+
+
+
+
+
+# def file_data(filepath):
+#     try:
+#         with open(filepath,'r') as file1:
+#             char_c=0
+#             line_c=0
+#             word_c=0
+#             space_c=0
+            
+#             for line in file1:
+#                 line_c+=1
+#                 char_c+=len(line)
+#                 words =line.split()
+#                 word_c+=len(words)
+#                 spac_c+=len(words)-1
+#         print(char_c,line_c)
+#     except FileNotFoundError as e:
+#         print(e)
+  
+
+# file_path = 'data1.txt'
+
+# res = file_data(file_path)
+
+# class Bank:
+    
+#   def __init__(self,age=0):
+#       self._age=age
+#   def show(self):
+#       print(self._age)
+       
+#   @property
+#   def age(self):
+#       print("getter is called")
+#       return self._age
+#   @age.setter  
+#   def age(self, a):
+#         if a<18:
+#             raise Exception("sorry")
+#         else:
+#             print("setter is called")
+#             self._age = a
+            
+# b1 = Bank(12)
+# b1.age=27
+# print(b1.age)
+# b1.show()
+
+# import pandas as pd
+# import numpy as nm
+# res = nm.zeros((5,5))
+# print(res)
+===================================================================
+
+sql--1 houe
+
+git
+docker
+django--flask--rest--sql--
+python
+cicd, jenkin, aws
+pandas, numpy
+project deployment
+
+==============================
+call to wipro--sadik khan--interview on Monday
+call to tech mahindra--whatsup msg to tech mahindra--Anitha
+call to versha--k
+call to pradyna atle--Morgan stanely
+
+
+
+
+===================================================
+
+डॉ. बाबासाहेब आंबेडकर जयंती व बुद्ध जयंती निमित
+सांयुक्तिक
+डॉ.बाबासाहेब आंबेडकर सांस्कृतिक व बुद्ध महोत्सव  
+चे  भव्य आयोजन
+
+telll me proper testing good pratices
+coding good pratices
+
+tell me where code will be there in deployment.
+how code goes from deve--deployment
+(deployment)
+
+
+
+
+
